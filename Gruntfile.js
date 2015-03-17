@@ -15,10 +15,10 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n',
-				sourceMap: 'dist/<%=pkg.name%>.min.map',
-				sourceMapRoot: 'http://nparashuram.com/IndexedDBShim/',
-				sourceMappingURL: 'http://nparashuram.com/IndexedDBShim/dist/<%=pkg.name%>.min.map',
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
+				//sourceMap: 'dist/<%=pkg.name%>.min.map',
+				//sourceMapRoot: 'http://nparashuram.com/IndexedDBShim/',
+				//sourceMappingURL: 'http://nparashuram.com/IndexedDBShim/dist/<%=pkg.name%>.min.map',
 			},
 			all: {
 				src: srcFiles,
