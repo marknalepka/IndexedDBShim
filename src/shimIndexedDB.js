@@ -1,12 +1,16 @@
 /*jshint globalstrict: true*/
 'use strict';
 (function(idbModules){
-    var DEFAULT_DB_SIZE = 4 * 1024 * 1024;
+    //MCN: var DEFAULT_DB_SIZE = 4 * 1024 * 1024;
+    var DEFAULT_DB_SIZE = 4.5 * 1024 * 1024;
+    
     if (!window.openDatabase) {
         return;
     }
     // The sysDB to keep track of version numbers for databases
-    var sysdb = window.openDatabase("__sysdb__", 1, "System Database", DEFAULT_DB_SIZE);
+    //MCN: var sysdb = window.openDatabase("__sysdb__", 1, "System Database", DEFAULT_DB_SIZE);
+    var sysdb = window.openDatabase("__sysdb__", 1, "System Database", 256 * 1024);
+
     sysdb.transaction(function(tx){
         tx.executeSql("CREATE TABLE IF NOT EXISTS dbVersions (name VARCHAR(255), version INT);", []);
     }, function() {
