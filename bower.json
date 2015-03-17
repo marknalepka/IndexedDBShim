@@ -1,5 +1,5 @@
 {
-  "name": "IndexedDBShim",
+  "name": "IndexedDBShimCustom"
   "version": "0.1.0",
   "main": "dist/IndexedDBShim.js"
 }

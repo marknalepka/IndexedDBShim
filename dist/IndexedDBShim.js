@@ -1566,12 +1566,16 @@ var cleanInterface = false;
 /*jshint globalstrict: true*/
 'use strict';
 (function(idbModules){
-    var DEFAULT_DB_SIZE = 4 * 1024 * 1024;
+    //MCN: var DEFAULT_DB_SIZE = 4 * 1024 * 1024;
+    var DEFAULT_DB_SIZE = 4.5 * 1024 * 1024;
+    
     if (!window.openDatabase) {
         return;
     }
     // The sysDB to keep track of version numbers for databases
-    var sysdb = window.openDatabase("__sysdb__", 1, "System Database", DEFAULT_DB_SIZE);
+    //MCN: var sysdb = window.openDatabase("__sysdb__", 1, "System Database", DEFAULT_DB_SIZE);
+    var sysdb = window.openDatabase("__sysdb__", 1, "System Database", 256 * 1024);
+
     sysdb.transaction(function(tx){
         tx.executeSql("CREATE TABLE IF NOT EXISTS dbVersions (name VARCHAR(255), version INT);", []);
     }, function() {
@@ -1734,11 +1738,17 @@ var cleanInterface = false;
         window.shimIndexedDB = idbModules.shimIndexedDB;
         if (window.shimIndexedDB) {
             window.shimIndexedDB.__useShim = function(){
+                //MCN: prepended underscore to all global variables to that this shim
+                //can be used in Safari 8 w/o error (note: Sarafi 8's IDB implementation
+                //is slow and buggy and it defined the indexedDB related global vars as
+                //read-only, hence why I forked the IndexedDBShim GitHub repo.)  
                 window._indexedDB = idbModules.shimIndexedDB;
                 window._IDBDatabase = idbModules.IDBDatabase;
                 window._IDBTransaction = idbModules.IDBTransaction;
                 window._IDBCursor = idbModules.IDBCursor;
                 window._IDBKeyRange = idbModules.IDBKeyRange;
+
+                //MCN: we don't need this
                 // On some browsers the assignment fails, overwrite with the defineProperty method
                 // if (window.indexedDB !== idbModules.shimIndexedDB && Object.defineProperty) {
                 //     Object.defineProperty(window, 'indexedDB', {
@@ -1752,9 +1762,11 @@ var cleanInterface = false;
         }
     }
     
+
     /*
     prevent error in Firefox
     */
+    //MCN: we don't support firefox so we don't need this
     // if(!('indexedDB' in window)) {
     //     window.indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.oIndexedDB || window.msIndexedDB;
     // }
@@ -1763,6 +1775,7 @@ var cleanInterface = false;
     detect browsers with known IndexedDb issues (e.g. Android pre-4.4)
     */
     var poorIndexedDbSupport = false;
+    //MCN: added "Safari" as a poor indexed db supporter.
     if ( navigator.userAgent.match(/Safari/) || navigator.userAgent.match(/Android 2/) || navigator.userAgent.match(/Android 3/) || navigator.userAgent.match(/Android 4\.[0-3]/)) {
         /* Chrome is an exception. It supports IndexedDb */
         if (!navigator.userAgent.match(/Chrome/)) {
