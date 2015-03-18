@@ -54,17 +54,20 @@
         window.shimIndexedDB.__useShim();
     }
     else {
-        window.IDBDatabase = window.IDBDatabase || window.webkitIDBDatabase;
-        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
-        window.IDBCursor = window.IDBCursor || window.webkitIDBCursor;
-        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange;
-        if(!window.IDBTransaction){
-            window.IDBTransaction = {};
+        //MCN: prepended underscores to the global vars so that the calling app can
+        //always utilize the underscore vars w/o having knowledge of whether or not the
+        //shim is being used.
+        window._IDBDatabase = window.IDBDatabase || window.webkitIDBDatabase;
+        window._IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
+        window._IDBCursor = window.IDBCursor || window.webkitIDBCursor;
+        window._IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange;
+        if(!window._IDBTransaction){
+            window._IDBTransaction = {};
         }
         /* Some browsers (e.g. Chrome 18 on Android) support IndexedDb but do not allow writing of these properties */
         try {
-            window.IDBTransaction.READ_ONLY = window.IDBTransaction.READ_ONLY || "readonly";
-            window.IDBTransaction.READ_WRITE = window.IDBTransaction.READ_WRITE || "readwrite";
+            window._IDBTransaction.READ_ONLY = window.IDBTransaction.READ_ONLY || "readonly";
+            window._IDBTransaction.READ_WRITE = window.IDBTransaction.READ_WRITE || "readwrite";
         } catch (e) {}
     }
     
