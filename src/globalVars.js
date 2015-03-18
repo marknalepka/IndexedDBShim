@@ -57,6 +57,7 @@
         //MCN: prepended underscores to the global vars so that the calling app can
         //always utilize the underscore vars w/o having knowledge of whether or not the
         //shim is being used.
+        window._indexedDB = window.indexedDB;
         window._IDBDatabase = window.IDBDatabase || window.webkitIDBDatabase;
         window._IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
         window._IDBCursor = window.IDBCursor || window.webkitIDBCursor;
